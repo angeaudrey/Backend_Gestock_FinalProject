@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Echange index{% endblock %}
+
+{% block body %}
+    <h1>Echange index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datechange</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for echange in echanges %}
+            <tr>
+                <td>{{ echange.id }}</td>
+                <td>{{ echange.datechange ? echange.datechange|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_echange_show', {'id': echange.id}) }}">show</a>
+                    <a href="{{ path('app_echange_edit', {'id': echange.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_echange_new') }}">Create new</a>
+{% endblock %}
