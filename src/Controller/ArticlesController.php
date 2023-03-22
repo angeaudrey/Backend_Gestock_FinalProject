@@ -92,6 +92,7 @@ private $requestStack;
     #[Route('/api/articles/add', name: 'app_articles_add', methods: ['POST'])]
     public function addarticle(Request $request, EntityManagerInterface $add ,SerializerInterface $serializer,UserPasswordHasherInterface $passwordHasher ,UserRepository $userRepository,CategoryRepository $categoryRepository,FileUploader $fileUploader): Response
     {
+    //    L'utilisation de l'opérateur de coalescence nul ??garantit que si $request->getContent()renvoie null, le $_POSTtableau sera utilisé à la place
         $data = json_decode($request->getContent(), true ) ?? $_POST;
  
  
@@ -179,6 +180,7 @@ private $requestStack;
         $host = $request->getSchemeAndHttpHost(); // ex: http://localhost:8000
         $basePath = $request->getBasePath(); // 
        // die();
+    //    La fonction intval() est une fonction intégrée en PHP qui renvoie la valeur entière d'une variable
         $articlelsite= $articleRepository->search($query, intval($query1),$userId);
   
  
@@ -246,6 +248,10 @@ private $requestStack;
     }
     public function upload_files($folder, $file, FileUploader $fileUploader) {
         $ds = DIRECTORY_SEPARATOR;
+
+        // $uploadDir' qui contient le chemin absolu vers le dossier de téléchargement ,Ce chemin est créé en utilisant la méthode 
+        // 'getParameter' de Symfony  qui récupère le répertoire du projet suivi du répertoire 'public/uploads' et du nom du dossier spécifié dans le premier paramètre.
+        
         $uploadDir = $this->getParameter('kernel.project_dir')
             . $ds."public".$ds."uploads".$ds.$folder.$ds;
         $fileName = '';
